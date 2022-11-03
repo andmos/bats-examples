@@ -215,9 +215,9 @@ Let's begin by extracting the input validation from the `get_author` and `get_ti
 }
 
 # Since the function validating the input file now can be extracted from the book notes parser, it can check the script itself:
-@test "_validate_input_file with 'extract-booknotes.sh' file as argument" {
-    run _validate_input_file extract-booknotes.sh
-    
+@test "_file_exists with 'extract-booknotes.sh' file as argument" {
+    run _file_exists extract-booknotes.sh
+
     [ "${status}" -eq 0 ]
     [ "${lines[0]}" == "extract-booknotes.sh" ]
 }
@@ -226,7 +226,7 @@ Let's begin by extracting the input validation from the `get_author` and `get_ti
 Then we can extract the input check directly from the functions:
 
 ```sh
-function _validate_input_file(){
+function _file_exists(){
     local FILE="$1"
     if [[ -z $FILE ]]; then 
         echo "Missing argument file"
@@ -260,8 +260,8 @@ extract-booknotes.bats
  ✓ extract_author with 'Above The Clouds' file as argument
  ✓ extract_title no argument
  ✓ extract_title with 'Above The Clouds' file as argument
- ✓ _validate_input_file with no argument
- ✓ _validate_input_file with 'extract-booknotes.sh' file as argument
+ ✓ _file_exists with no argument
+ ✓ _file_exists with 'extract-booknotes.sh' file as argument
 
 6 tests, 0 failures
 ```

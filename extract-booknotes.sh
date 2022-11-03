@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function get_author(){
-    FILE=$(_validate_input_file "$1")
+    FILE=$(_file_exists "$1")
     if [ $? -eq 1 ]; then 
         echo "$FILE"
         exit 1
@@ -12,7 +12,7 @@ function get_author(){
 }
 
 function get_title(){
-    FILE=$(_validate_input_file "$1")
+    FILE=$(_file_exists "$1")
     if [ $? -eq 1 ]; then 
         echo "$FILE"
         exit 1
@@ -22,7 +22,7 @@ function get_title(){
     echo "$TITLE"
 }
 
-function _validate_input_file(){
+function _file_exists(){
     local FILE="$1"
     if [[ -z $FILE ]]; then 
         echo "Missing argument file"

@@ -36,16 +36,16 @@ function teardown(){
     [ "${lines[0]}" == "Above the Clouds: How I Carved My Own Path to the Top of the World" ]
 }
 
-@test "_validate_input_file with no argument" {
-    run _validate_input_file
+@test "_file_exists with no argument" {
+    run _file_exists
 
     [ "${status}" -eq 1 ]
     [ "${lines[0]}" == "Missing argument file" ]
 }
 
-@test "_validate_input_file with 'extract-booknotes.sh' file as argument" {
-    run _validate_input_file extract-booknotes.sh
-    
+@test "_file_exists with 'extract-booknotes.sh' file as argument" {
+    run _file_exists extract-booknotes.sh
+
     [ "${status}" -eq 0 ]
     [ "${lines[0]}" == "extract-booknotes.sh" ]
 }
