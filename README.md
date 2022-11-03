@@ -43,6 +43,7 @@ extract-booknotes.bats
 ```
 
 And if we fill in the code:
+
 ```sh
 #!/usr/bin/env bash
 
@@ -191,6 +192,6 @@ extract-booknotes.bats
 4 tests, 0 failures
 ```
 
-NICE. But wait. What about refactoring? Isn't that a part of TDD? 
+NICE. But wait. What about refactoring? Isn't that a part of TDD?
 
-Yes indeed. The observant reader may have seen that the two functions have something in common: both take in a file for parsing, and both do the parsing based on REGEX expressions. 
+Yes indeed. The observant reader may have seen that the two functions have something in common: both take in a file for parsing, and both do the parsing based on REGEX expressions.
