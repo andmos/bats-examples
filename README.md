@@ -14,7 +14,8 @@ function teardown(){
 }
 
 @test "extract_author no argument" {
-    run get_author 
+    run get_author
+
     [ "${status}" -eq 1 ]
     [ "${lines[0]}" == "Missing argument file" ]
 }
@@ -83,6 +84,7 @@ Again, let's start with the test:
 ```sh
 @test "extract_author with 'Above The Clouds' file as argument" {
     run get_author BookNotes/Above.The.Clouds.md
+
     [ "${status}" -eq 0 ]
     [ "${lines[0]}" == "Kilian Jornet" ]
 }
@@ -147,6 +149,7 @@ Let's begin by specifying how the function should look, again from our tests:
 ```sh
 @test "extract_title no argument" {
     run get_title
+
     [ "${status}" -eq 1 ]
     [ "${lines[0]}" == "Missing argument file" ]
 }
@@ -159,6 +162,7 @@ With that in place we can focus on extracting the title from the file. As always
 ```sh
 @test "extract_title with 'Above The Clouds' file as argument" {
     run get_title BookNotes/Above.The.Clouds.md
+
     [ "${status}" -eq 0 ]
     [ "${lines[0]}" == "Above the Clouds: How I Carved My Own Path to the Top of the World" ]
 }
@@ -205,6 +209,7 @@ Let's begin by extracting the input validation from the `get_author` and `get_ti
 # The behavior should be the same for no arguments, exitcode 1 and 'Missing Argument file' as output:
 @test "_validate_input with no argument" {
     run _validate_input
+
     [ "${status}" -eq 1 ]
     [ "${lines[0]}" == "Missing argument file" ]
 }
@@ -212,6 +217,7 @@ Let's begin by extracting the input validation from the `get_author` and `get_ti
 # Since the function validating the input file now can be extracted from the book notes parser, it can check the script itself:
 @test "_validate_input_file with 'extract-booknotes.sh' file as argument" {
     run _validate_input_file extract-booknotes.sh
+    
     [ "${status}" -eq 0 ]
     [ "${lines[0]}" == "extract-booknotes.sh" ]
 }
