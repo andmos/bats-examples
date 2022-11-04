@@ -236,11 +236,13 @@ function _file_exists(){
 }
 ```
 
-And then replace the file-checking code in our functions with the new one:
+Now here we could also extend the `_file_exists` code with a branch handling an argument of the name of a non-existing file, but to stay strictly in line with TDD we should only add enough production code for the tests to to pass, which we have done with the extracted snippet.
+
+The refactored `get_author` function now looks like this:
 
 ```sh
 function get_author(){
-    FILE=$(_validate_input "$1") # <--- Here we run the input through the validation function
+    FILE=$(_file_exists "$1") # <--- Here we run the input through the validation function
     if [ $? -eq 1 ]; then  # <--- And then check the return code from the function
         echo "$FILE" # <--- Before we return the output from the validation if it fails
         exit 1 # <--- Then, exit.
@@ -266,7 +268,7 @@ extract-booknotes.bats
 6 tests, 0 failures
 ```
 
-Did the code get any better or clearer? More dynamic yes, but shorter, better, or clearer? Absolutely not, but the tests are green so the refactoring could be made safer with guardrails.
+Did the code get any better or clearer? More dynamic and a better abstraction, but shorter? Absolutely not, but the tests are green so the refactoring could be made safer with guardrails.
 
 But, still a lot of duplication here. The variable is the way we look up content isn't it?
 The regex is the differentiator. Can we refactor even more and still have green tests?
