@@ -6,18 +6,18 @@ Let's begin simple: We want to extract the author from a markdown file containin
 #!/usr/bin/env bats
 
 function setup(){
-    source ./extract-booknotes.sh 
+    source ./extract-booknotes.sh # The setup method sources in the script we want to test.
 }
 
 function teardown(){
-  echo $result
+  echo $result # The teardown method returns the "$result" variable from bats itself. This helps with debugging failing tests.
 }
 
-@test "extract_author no argument" {
-    run get_author
+@test "extract_author no argument" { # The first line contains the test-annotation and a name / explanation of the function to be tested.
+    run get_author  # The `run` keyword comes from bats and is for triggering functions or script.
 
-    [ "${status}" -eq 1 ]
-    [ "${lines[0]}" == "Missing argument file" ]
+    [ "${status}" -eq 1 ] # The $status variable contains the return code from the functions or scripts being tested, 
+    [ "${lines[0]}" == "Missing argument file" ] # While the $lines variable is an array of strings from the functions or script we want to test.
 }
 ```
 
@@ -69,7 +69,7 @@ extract-booknotes.bats
 
 We get some green tests.
 
-Cool. Now for the functionality. We want to extract the author(s) from the markdown notes file:
+Cool. Now for the functionality. We want to extract the author from the markdown notes file:
 
 ```md
 ### Metadata
@@ -114,7 +114,7 @@ function get_author(){
         exit 1
     fi
     local AUTHOR
-    AUTHOR=$(grep -oP '(?<=Author:\s)(\w+).*' "$FILE") # <---This one right here. I'm not comfortable with regex spread around, so a test for this is quite nice.
+    AUTHOR=$(grep -oP '(?<=Author:\s)(\w+).*' "$FILE") # <--- This one right here. I'm not comfortable with regex spread around, so a test for this is quite nice.
     echo "$AUTHOR"
 }
 
@@ -155,7 +155,7 @@ Let's begin by specifying how the function should look, again from our tests:
 }
 ```
 
-Same as before, no file should give output and exitcode 1. No code written yet, no green test. You know the drill.
+Same as before, no file should give output and exit code 1. No code written yet, no green test. You know the drill.
 
 With that in place we can focus on extracting the title from the file. As always, the test first:
 
@@ -200,15 +200,15 @@ extract-booknotes.bats
 
 NICE. But wait. What about refactoring? Isn't that a part of TDD?
 
-Yes indeed. The observant reader may have seen that the two functions have something in common: both take in a file for parsing, and both do the parsing based on regex expressions.
+Yes indeed. The observant reader may have seen that the two functions have something in common: both take in an argument of a file name for parsing, and both do the parsing based on regex expressions. If noe argument is given, return an exit code and a message saying "Missing Argument file". 
 
-Let's begin by extracting the input validation from the `get_author` and `get_title` functions and call it `_validate_input`. As always, the functions behavior is first described with tests, which makes for great documentation of the function.
+Let's begin by extracting the input validation from the `get_author` and `get_title` functions and call it `_file_exists`. This function will be more generalized and standalone. As always, the functions behavior is first described with tests, which makes for great documentation of the function.
 
 ```sh
 
 # The behavior should be the same for no arguments, exitcode 1 and 'Missing Argument file' as output:
-@test "_validate_input with no argument" {
-    run _validate_input
+@test "_file_exists with no argument" {
+    run _file_exists
 
     [ "${status}" -eq 1 ]
     [ "${lines[0]}" == "Missing argument file" ]
@@ -269,4 +269,4 @@ extract-booknotes.bats
 Did the code get any better or clearer? More dynamic yes, but shorter, better, or clearer? Absolutely not, but the tests are green so the refactoring could be made safer with guardrails.
 
 But, still a lot of duplication here. The variable is the way we look up content isn't it?
-The regex is the differentiator. Can we refactor even more and still have green tests? 
+The regex is the differentiator. Can we refactor even more and still have green tests?
