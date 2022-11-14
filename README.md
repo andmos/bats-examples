@@ -16,6 +16,40 @@
 }
 ```
 
+To run the test, use the `bats` command:
+
+```sh
+$ bats tests/star-wars-api.bats 
+star-wars-api.bats
+ ✓ GET: /people first person entity is Luke Skywalker
+
+1 tests, 0 failures
+```
+
+We can expand on this and check if the `/planets` endpoint contains Naboo:
+
+```sh
+@test "GET: /planets contains 'Naboo'" {
+    local EXPECTED_PLANET="Naboo"
+    local ACTUAL_PLANET 
+
+    ACTUAL_PLANET="$(curl -s https://swapi.dev/api/planets/ | EXPECTED_PLANET="$EXPECTED_PLANET" jq '.results[] | select(.name ==env.EXPECTED_PLANET).name' --raw-output)"
+
+    [ "${ACTUAL_PLANET}" == "${EXPECTED_PLANET}" ]
+}
+```
+
+The two tests are now run together:
+
+```sh
+$ bats tests/star-wars-api.bats 
+star-wars-api.bats
+ ✓ GET: /people first person entity is Luke Skywalker
+ ✓ GET: /planets contains 'Naboo'
+
+2 tests, 0 failures
+```
+
 ## Using TDD in our shell scripts for fun and profit
 
 Let's begin simple: We want to extract the author from a markdown file containing book notes, but want the job to exit if no argument is given:
