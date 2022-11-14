@@ -9,3 +9,12 @@
     # Assert
     [ "${ACTUAL_PERSON}" == "${EXPECTED_PERSON}" ] # The assert is a normal Bash test, where we check the actual person against what we expect.
 }
+
+@test "GET: /planets contains 'Naboo'" {
+    local EXPECTED_PLANET="Naboo"
+    local ACTUAL_PLANET 
+
+    ACTUAL_PLANET="$(curl -s https://swapi.dev/api/planets/ | EXPECTED_PLANET="$EXPECTED_PLANET" jq '.results[] | select(.name ==env.EXPECTED_PLANET).name' --raw-output)"
+
+    [ "${ACTUAL_PLANET}" == "${EXPECTED_PLANET}" ]
+}
