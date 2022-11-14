@@ -1,5 +1,25 @@
 # TDD for shell scripts with bats
 
+## Testing, testing
+
+> "Testing shows the presence, not the absence of bugs." - [Edsger W. Dijkstra](http://homepages.cs.ncl.ac.uk/brian.randell/NATO/nato1969.PDF)
+
+(Some intro on how it's more common than not to have tests in our project)
+
+[Dave Farley wrote a blog post some years ago](https://www.davefarley.net/?p=278) about how we should use technics from classical science and engineering and apply them to software development to make the field "a real engineering field, not just a pretend-to-be", and to archive this, testing is essential. To be frank, in how many other engineering fields is testing of the things created optional?
+
+Used correctly, automated testing is a great way to implement the essence of science, to falsify out theories about the code.
+
+Every programming language or ecosystem that's worth taking seriously has a testing library (or sometimes whole frameworks) created for them. For C# and dotnet [xunit](https://github.com/xunit/xunit) has become somewhat of a standard, in Java and JVM land [JUnit](https://junit.org/junit5/) has been around for a long time, and for JavaScript, both frontend and backend, testing with [Jest](https://jestjs.io/) has seen a lot of traction.
+
+Writing our unit, integration or integrated tests in the same language as the production code and keeping the tests close is the de facto standard.
+
+But aren't we forgetting something? Our applications don't stop at the repo(?) level. To be able to build and deploy the code, chances are we have some build scripts and deployment pipelines, or some good old "glue scripts" keeping it all together. To do most of this heavy lifting most of us still depend on the good old shell scripts, most notably written in the old work-horse Bourne Again Shell, or Bash.
+
+If anything, chances are slim that Bash is going away anytime soon, and scripts written for the shell deserves tests of it's own.
+
+Let's talk about how we can test our shell scripts with `bats`.
+
 ## Shell testing with Bats
 
 ```sh
@@ -321,6 +341,3 @@ extract-booknotes.bats
 ```
 
 Did the code get any better or clearer? More dynamic and a better abstraction, but shorter? Absolutely not, but the tests are green so the refactoring could be made safer with guardrails.
-
-But, still a lot of duplication here. The variable is the way we look up content isn't it?
-The regex is the differentiator. Can we refactor even more and still have green tests?
