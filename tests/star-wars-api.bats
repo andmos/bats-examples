@@ -14,7 +14,7 @@
     local EXPECTED_PLANET="Naboo"
     local ACTUAL_PLANET 
 
-    ACTUAL_PLANET="$(curl -s https://swapi.dev/api/planets/ | EXPECTED_PLANET="$EXPECTED_PLANET" jq '.results[] | select(.name ==env.EXPECTED_PLANET).name' --raw-output)"
+    ACTUAL_PLANET="$(curl -s https://swapi.dev/api/planets/ | EXPECTED_PLANET="$EXPECTED_PLANET" jq '.results[] | select(.name == env.EXPECTED_PLANET).name' --raw-output)"
 
     [ "${ACTUAL_PLANET}" == "${EXPECTED_PLANET}" ]
 }
