@@ -22,6 +22,12 @@ Let's talk about how we can test our shell scripts with `bats`.
 
 ## Shell testing with Bats
 
+To show how writing tests with `bats` work, let's write some black-box test verifying a REST-API with `curl`.
+Our "system under test", or "SUT", is the [The Star Wars API](https://swapi.dev/). This will show how `bats` work, and show one of it's use cases.
+
+We begin with a test to make sure Luke Skywalker is the first entity of the `/people` endpoint.
+As we will see, tests are set up like most other testing frameworks, here following the "arrange act assert" pattern.
+
 ```sh
 #!/usr/bin/env bats
 
@@ -30,7 +36,7 @@ Let's talk about how we can test our shell scripts with `bats`.
     local EXPECTED_PERSON="Luke Skywalker"
     local ACTUAL_PERSON
     #Act
-    ACTUAL_PERSON="$(curl -s https://swapi.dev/api/people/1/ |jq '.name' --raw-output)" # Here we do our call to the Star Wars API with Curl and parse the JSON with jq
+    ACTUAL_PERSON="$(curl -s https://swapi.dev/api/people/1/ |jq '.name' --raw-output)" # Here we do our call to the Star Wars API with curl and parse the JSON with jq
     # Assert
     [ "${ACTUAL_PERSON}" == "${EXPECTED_PERSON}" ] # The assert is a normal Bash test, where we check the actual person against what we expect.
 }
@@ -70,9 +76,13 @@ star-wars-api.bats
 2 tests, 0 failures
 ```
 
+Great. Those examples show the overview of `bats`. Next, let's spice it up with some Test Driver Development (TDD) on some actual shell scripts.
+
 ## Using TDD in our shell scripts for fun and profit
 
-Let's begin simple: We want to extract the author from a markdown file containing book notes, but want the job to exit if no argument is given:
+Let's begin simple: We want a function to extract the author from a markdown file containing book notes, but want the job to exit if no argument (I.e. a file) is given. This being TDD, we want a failing test explaining the logic we want before we actually write som code.
+
+In this example, we will see the keyword `run`, which is used to run a function, as well as the `$status` and `$lines` variables provided by `bats`.
 
 ```sh
 #!/usr/bin/env bats
@@ -93,7 +103,7 @@ function teardown(){
 }
 ```
 
-When run against an empty file, this test will fail:
+When run against an empty file, this test will (not surprisingly) fail:
 
 ```sh
 #!/usr/bin/env bash
