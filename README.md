@@ -8,7 +8,7 @@
 
 [Dave Farley wrote a blog post some years ago](https://www.davefarley.net/?p=278) about how we should use technics from classical science and engineering and apply them to software development to make the field "a real engineering field, not just a pretend-to-be", and to archive this, testing is essential. To be frank, in how many other engineering fields is testing of the things created optional?
 
-Used correctly, automated testing is a great way to implement the essence of science, to falsify out theories about the code.
+Used correctly, automated testing is a great way to implement the essence of science, to falsify the theories about the code.
 
 Every programming language or ecosystem that's worth taking seriously has a testing library (or sometimes whole frameworks) created for them. For C# and dotnet [xunit](https://github.com/xunit/xunit) has become somewhat of a standard, in Java and JVM land [JUnit](https://junit.org/junit5/) has been around for a long time, and for JavaScript, both frontend and backend, testing with [Jest](https://jestjs.io/) has seen a lot of traction.
 
