@@ -17,8 +17,9 @@ Writing our unit, integration or integrated tests in the same language as the pr
 But aren't we forgetting something? Our systems do not stop at the application code level. To be able to build and deploy our code, chances are we have some build scripts and deployment pipelines, or some good old "glue scripts" keeping it all together. To do most of this heavy lifting most of us still depend on the good old shell scripts, most notably written in the old work-horse Bourne Again Shell, or Bash.
 
 If anything, chances are slim that Bash is going away anytime soon, and scripts written for the shell deserves tests of it's own.
+The shell is also often forgotten as an environment to test systems from in of itself. There are lots of CLI's that can be used to test different aspect of our systems, and there is no rule proclaiming that integration or load tests need to be written or hosted by the same codebase as our application.
 
-Let's talk about how we can test our shell scripts with `bats`.
+It's time to introduce shell testing with `bats`.
 
 ## Shell testing with Bats
 
