@@ -4,7 +4,8 @@
 
 > "Testing shows the presence, not the absence of bugs." - [Edsger W. Dijkstra](http://homepages.cs.ncl.ac.uk/brian.randell/NATO/nato1969.PDF)
 
-(Some intro on how it's more common than not to have tests in our project)
+As professional software developers, writing automated tests has become second nature to what we do. The exact amount of tests, amount of code-coverage, unit vs. integration vs. integrated test etc. may still be up for debate, but the industry as a whole seems to have settled on the practice of automated tests as a way to ensure the viability of a codebase over time. The [Extreme Programming](http://www.extremeprogramming.org) methodology of the late 1990's even went as far as citing ["Code without tests may not be released"](http://www.extremeprogramming.org/rules/unittests.html).
+Even with the general consensus among developers that automated testing is something _we should do_, it's still an open choice: one can actively choose to _not to write tests_ as well.  
 
 [Dave Farley wrote a blog post some years ago](https://www.davefarley.net/?p=278) about how we should use techniques from classical science and engineering and apply them to software development to make the field "a real engineering field, not just a pretend-to-be", and to archive this, testing is essential. To be frank, in how many other engineering fields is testing of the things created optional?
 
@@ -22,6 +23,9 @@ The shell is also often forgotten as an environment to test systems from in of i
 It's time to introduce shell testing with `bats`.
 
 ## Shell testing with Bats
+
+`bats` is a [TAP, or "Test Anything Protocol"](http://testanything.org/) compliant testing framework for Bash. It provides a simple way to verify that the *NIX programs you write behave as expected.
+The initial public release of `bats` was [done back in 2011 by Sam Stephenson](https://github.com/sstephenson/bats), but the project was archived and put in a read-only state in 2016. As of 2017, the current actively maintained [fork, know as bats-core](https://github.com/bats-core/bats-core) has been looked after by the bats-core organization, and the project is still under active development.
 
 To show how writing tests with `bats` work, let's write some black-box test verifying a REST-API with `curl`.
 Our "system under test", or "SUT", is the [The Star Wars API](https://swapi.dev/). This will show how `bats` work, and show one of it's use cases.
@@ -83,7 +87,7 @@ Great. Those examples show the overview of `bats`. Next, let's spice it up with 
 
 Let's begin simple: We want a function to extract the author from a markdown file containing book notes, but want the job to exit if no argument (I.e. a file) is given. This being TDD, we want a failing test explaining the logic we want before we actually write som code.
 
-In this example, we will see the keyword `run`, which is used to run a function, as well as the `$status` and `$lines` variables provided by `bats`.
+In this example, we will see the keyword `run`, which is used to run a function, as well as the `$status` and `$lines` variables provided by `bats`. [The overview of bats variables can be found here](https://bats-core.readthedocs.io/en/stable/writing-tests.html#).
 
 ```sh
 #!/usr/bin/env bats
@@ -140,7 +144,7 @@ function get_author(){
 }
 ```
 
-And run the testa again:
+And run the tests again:
 
 ```sh
 $ bats tests/extract-booknotes.bats 
@@ -203,6 +207,8 @@ function get_author(){
 
 ```
 
+> Note: For this pice of code, the GNU version of `grep` is used. It might not work as expected on macOS with BSD `grep`.
+
 With this pice of code in place, the test should be green:
 
 ```sh
@@ -238,7 +244,7 @@ Let's begin by specifying how the function should look, again from our tests:
 }
 ```
 
-Same as before, no file should give output and exit code 1. No code written yet, no green test. You know the drill.
+Same as before, no file should give output and exit code 1. No code written yet, no green test.
 
 With that in place we can focus on extracting the title from the file. As always, the test first:
 
@@ -283,7 +289,7 @@ extract-booknotes.bats
 
 NICE. But wait. What about refactoring? Isn't that a part of TDD?
 
-Yes indeed. The observant reader may have seen that the two functions have something in common: both take in an argument of a file name for parsing, and both do the parsing based on regex expressions. If noe argument is given, return an exit code and a message saying "Missing Argument file". 
+Yes indeed. The observant reader may have seen that the two functions have something in common: both take in an argument of a file name for parsing, and both do the parsing based on regex expressions. If no argument is given, return error exit code and a message saying "Missing Argument file".
 
 Let's begin by extracting the input validation from the `get_author` and `get_title` functions and call it `_file_exists`. This function will be more generalized and standalone. As always, the functions behavior is first described with tests, which makes for great documentation of the function.
 
@@ -351,4 +357,13 @@ extract-booknotes.bats
 6 tests, 0 failures
 ```
 
-Did the code get any better or clearer? More dynamic and a better abstraction, but shorter? Absolutely not, but the tests are green so the refactoring could be made safer with guardrails.
+Did the code get any better or clearer? More dynamic and with a better abstraction. Thanks to the tests the refactoring could be made safer with guardrails.
+
+## Conclusion
+
+In this post we have seen how our shell scripts also can have automated tests thanks to `bats`.
+Hopefully this will motivate you to extend your thinking about tests to also include the pieces outside the application code.
+
+As a colleague of mine said: "Every pice of code in the repository that is necessary to bring value to the customer is critical, and should thus also be tested. If we think we have a bug in the deployment pipeline, we don't guess. We test and prove.
+
+All code examples from this post can be found [in this Git repository](https://github.com/andmos/bats-examples).
