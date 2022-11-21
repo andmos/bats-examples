@@ -1,4 +1,4 @@
-# TDD for shell scripts with bats
+# Extend your automated tests to the Shell
 
 ## Testing, testing
 
@@ -22,7 +22,7 @@ The shell is also often forgotten as an environment to test systems from in of i
 
 It's time to introduce shell testing with `bats`.
 
-## Shell testing with Bats
+## Introducing shell testing with Bats
 
 `bats` is a [TAP, or "Test Anything Protocol"](http://testanything.org/) compliant testing framework for Bash. It provides a simple way to verify that the *NIX programs you write behave as expected.
 The initial public release of `bats` was [done back in 2011 by Sam Stephenson](https://github.com/sstephenson/bats), but the project was archived and put in a read-only state in 2016. As of 2017, the current actively maintained [fork, know as bats-core](https://github.com/bats-core/bats-core) has been looked after by the bats-core organization, and the project is still under active development.
