@@ -81,7 +81,9 @@ star-wars-api.bats
 2 tests, 0 failures
 ```
 
-Great. Those examples show the overview of `bats`. Next, let's spice it up with some Test Driver Development (TDD) on some actual shell scripts.
+Great. Those examples show the overview of `bats`.  For more ideas on how to use `bats` for integration tests, [Zach Holman](https://zachholman.com/) has a great [blog post with that topic in mind](https://zachholman.com/posts/integration-tests).
+
+Next, let's spice it up with some Test Driver Development (TDD) on some actual shell scripts.
 
 ## Using TDD in our shell scripts for fun and profit
 
